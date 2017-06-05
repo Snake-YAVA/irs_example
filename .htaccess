@@ -1,0 +1,4 @@
+php_flag display_errors 1
+php_flag apc.cache_by_default Off 
+php_value memory_limit 64M 
+php_value max_execution_time 6000

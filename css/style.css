@@ -1,0 +1,93 @@
+body /* тело документа */
+{	
+	background: url('../images/background.jpg') repeat top center;
+	background-size: 100%; /* растягиваем фон на всю ширину страницы */
+	margin: 0;  /* убираем стандартные отсупы, которые добавляет браузер */
+	padding: 0;
+	font-family: Arial, sans-serif;
+}
+
+.main {
+	margin: auto; /* выравниваем блок по центру */
+	background: rgba(255, 255, 255, 0.8); /*Цвет фона. Цвета можно задавать в формате rgba. 4ый параметр от 0 до 1 устанавливает прозрачность. */
+	max-width: 1000px; /* максимальная ширина блока */
+}
+
+.middle {
+    min-height: 400px;
+    display: table;
+}
+
+.header {	
+	background: url(../images/header_background.jpg);
+	height: 170px;
+	text-align: center;
+	padding: 20px;
+	position: relative;
+}
+
+.logo {
+    position: absolute; /* абсолютно позиционируем блок, у родительского элемента должен быть relative */
+    top: 10px;
+    right: 20px;
+}
+
+.left-block {				
+	width: 200px;
+	background-color: #fff;
+	display: table-cell; /* блок будет вести себя как ячейка таблицы (для того чтобы выстроить в один ряд) */
+	padding: 20px;
+}
+.content {
+	background: #eee;
+	min-height: 400px;
+	display: table-cell; /* блок будет вести себя как ячейка таблицы (для того чтобы выстроить в один ряд) */
+	padding: 20px;	
+	width: 100%;
+}
+.footer {
+	height: 100px;
+	padding: 20px;
+}
+
+
+/* меню */
+ul.menu { /* меню первого уровня */
+	position: absolute; /* абсолютно позиционируем блок, у родительского элемента должен быть relative */
+	bottom: 10px;
+	left: 10px;
+}
+ul.menu > li { /* элементы меню первого уровня */
+	display: inline-block; /* выстраиваем элементы списка в ряд */
+	background: #fff;
+	border-radius: 5px; /* закругление краёв */
+	position: relative;
+	padding-left: 30px;
+	padding-right: 30px;
+}
+ul.menu li a {
+	text-decoration: none;
+	color: #000;
+	padding: 10px;		
+    display: block;
+}
+ul.menu li:hover {/* при наведении мыши */
+	background: rgb(97, 154, 141);
+}
+ul.menu li:hover a {/* при наведении мыши */
+	color: #fff;
+}
+ul.menu > li > ul { /* меню второго уровня */
+	position: absolute;
+	left: 0px;
+	width: 100%;
+	background: #ccc;
+	padding-left: 0px;
+	display: none;
+}
+ul.menu > li > ul li { /* элементы меню второго уровня */
+	display: block;
+}
+ul.menu li:hover > ul {
+	display: block;
+}
