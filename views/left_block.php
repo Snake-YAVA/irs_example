@@ -1,7 +1,9 @@
-<h2>Разделы блога</h2>
+
+<h2><?php echo $title; ?></h2>
 <ul>
-	<li>Путешествия</li>
-	<li>Спорт</li>
-	<li>Развлечения</li>
-	<li>Кино</li>
+	<?php 
+		foreach ($items as $value) {
+			echo "<li><a href='/?category=$value'>$value</a></li>";
+		}
+	?>
 </ul>

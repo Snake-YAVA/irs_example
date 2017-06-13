@@ -3,14 +3,14 @@
 <head>
 	<title>Мой блог</title>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
-	<link rel="stylesheet" type="text/css" href="js/jquery-3.2.1.js">
+	<script type="text/javascript" scr="js/jquery-3.2.1.js"></script>
 </head>
 <body>	
 	<script type="text/javascript" scr="js/my_script.js"></script>
 	<div class="main">
 		<div class="header"><?php print template('header') ?></div>
 		<div class="middle">
-			<div class="left-block"><?php print template('left_block') ?></div>
+			<div class="left-block"><?php print template('left_block', $left_block_data) ?></div>
 			<div class="content">
 		          <h1><?php print $title; ?></h1>
 		          <?php print $content; ?>
