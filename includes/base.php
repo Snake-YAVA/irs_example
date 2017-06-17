@@ -4,7 +4,7 @@
 	и вставляет содержимое этого файла на странице с помощью in
 	*/
 	function includeFileWithVariables($fileName, $variablesArray) {
-	    extract($variablesArray);
+	    extract($variablesArray);	    
 	    include($fileName);
 	}
 
