@@ -1,61 +1,91 @@
 <?php
-/* Класс для работы с базой данных */
-
 class Model {
-
 	private $link = null;
 
-	function Model() { /*Конструктор. Метод, который выполнится при создании объекта*/
-		//Подключение к БД
-		$link = mysql_connect('localhost', 'gp1st9_test2', '123456');// подключаемся к БД на сервере localhost. (Имя пользователя БД и пароль)
-		mysql_select_db('gp1st9_test2'); //Выбираем БД		
+	function Model() {
+		$link = mysql_connect('localhost', 'gp1st9_test3', '123456');
+		mysql_select_db('gp1st9_test3');//название базы данных и имя пользователя совпадает
+		if (!$link) {
+			die('Ошибка соединения: ' . mysql_error());
+		}		
 	}
 
-	/* Статьи */
-
-	public function getArticles($category = null) { /* Получить список статей */
-		if (is_null($category)) {
-			$result = mysql_query("SELECT a.id, a.title, a.body FROM articles AS a;"); //Выполняем SQL-запрос
-		} else {
-			$result = mysql_query("SELECT a.id, a.title, a.body FROM articles AS a, blog_categories AS c WHERE c.category = '$category' AND c.id = a.category_id;"); //Выполняем SQL-запрос
-		}
-
+	/* Получить список статей из категории */
+	public function getListArticles($category = null) {
+		$result = mysql_query("SELECT * FROM articles;");
 		$articles = array();
 		while ($article = mysql_fetch_array($result)) {
 			array_push($articles, $article);
-		}
+		}		
 
 		return $articles;
 	}
 
-	public function addArticle($title, $body, $author = '', $category = '') { /* Добавить статью */
-		$user_id = 0;//нужно получать из БД ID-пользователя с именем author
-		$category_id = 0; //нужно получать из БД ID-категории блога по названию
+	/* Добавить статью */
+	public function addArticle($title, $body, $category) {
+		$result = mysql_query("SELECT id FROM blog_categories WHERE LOWER(category) LIKE '" . strtolower($category) . "' LIMIT 1;");
+		
+		if (!$result) {
+			die('Ошибка соединения: ' . mysql_error());
+		}	
 
-		$result = mysql_query("INSERT INTO articles (title, body, user_id, category_id) VALUES('$title','$body', $user_id, $category_id);");
-	}
+		$category_id = null;
 
-	public function removeArticle($id) { /* Удалить статью */
-		$result = mysql_query("DELETE FROM articles WHERE id = $id");
-	}
+		while($row = mysql_fetch_array($result)) {
+			$category_id = $row['id'];
+		}	
 
-	/* Задание написать метод */
-	public function getBlogCategories() { /* Получить список категорий блога */
-		$result = mysql_query("SELECT category FROM blog_categories;");
-
-		$blog_categories = array();
-		while ($category = mysql_fetch_array($result)) {
-			array_push($blog_categories, $category['category']);			
+		if (!isset($category_id)) {
+			$category_id = $this->addCategory($category);
 		}
-		return $blog_categories;
+
+		$query = "INSERT INTO articles (title, body, date, category_id) VALUES ('$title', '$body', NOW(), $category_id);";
+		$result2 = mysql_query($query);
+
+		if (!$result2) {
+			die('Ошибка соединения: ' . mysql_error() . $query . var_dump($category_result));
+		}		
 	}
 
-	public function isAdmin($login, $password) {
-		//Здесь нужно выполнять проверку.
-		//В БД проверить есть ли такой пользователь с таким паролем
-		return true;
+	/* Удалить статью */
+	public function removeArticle($id) {
+
+	}
+
+	/* Получить список категории */
+	public function getListCategories() {
+		$result = mysql_query("SELECT * FROM blog_categories;");
+		$categories = array();
+		while ($row = mysql_fetch_array($result)) {
+			array_push($categories, $row['category']);
+		}		
+
+		return $categories;
+	}
+
+	/* Добавить категорию */
+	public function addCategory($category) {
+		$result = mysql_query("INSERT INTO blog_categories (category) VALUES ('$category');");
+
+		return mysql_insert_id();
+	}
+	/* Удалить категорию */
+	public function removeCategory($id) {
+
+	}
+
+	/* Есть ли такой пользователь в БД */
+	public function hasUser($login, $password) {
+		$result = mysql_query("SELECT COUNT(*) FROM users WHERE login = '$login' AND password = '$password';");
+		$row = mysql_fetch_array($result);
+		
+		if ($row['COUNT(*)'] > 0)
+			return TRUE;
+		else 
+			return FALSE;
 	}
 
 
-}	
+}
+
 ?>

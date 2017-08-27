@@ -1,93 +1,110 @@
-body /* тело документа */
-{	
-	background: url('../images/background.jpg') repeat top center;
-	background-size: 100%; /* растягиваем фон на всю ширину страницы */
-	margin: 0;  /* убираем стандартные отсупы, которые добавляет браузер */
-	padding: 0;
-	font-family: Arial, sans-serif;
+body {
+	background: url('http://clipart-db.ru/file_content/rastr/brick_004.jpg');
+	background-repeat: repeat-x;
+	background-position: 10px;
 }
 
-.main {
-	margin: auto; /* выравниваем блок по центру */
-	background: rgba(255, 255, 255, 0.8); /*Цвет фона. Цвета можно задавать в формате rgba. 4ый параметр от 0 до 1 устанавливает прозрачность. */
-	max-width: 1000px; /* максимальная ширина блока */
+.header {
+	border: solid 1px blue;
+	padding: 20px;
+	margin-top: 20px;	/* внешний верхний отступ */
+	background: rgba(255, 255, 255, 0.8);
+	height: 270px;
+	position: relative;
 }
 
 .middle {
-    min-height: 400px;
-    display: table;
-}
-
-.header {	
-	background: url(../images/header_background.jpg);
-	height: 170px;
-	text-align: center;
+	border: solid 1px red;
 	padding: 20px;
-	position: relative;
+	margin-top: 20px;	/* внешний верхний отступ */
+	background: rgba(255, 255, 255, 0.8);
 }
 
-.logo {
-    position: absolute; /* абсолютно позиционируем блок, у родительского элемента должен быть relative */
-    top: 10px;
-    right: 20px;
+.leftblock { /* Левый блок */
+	float: left; /* Задаёт обтекание элемента по левой стороне */
+    width: 200px; /* Ширина блока */
+    vertical-align: top; /* Выравниваем по верху */
+}
+.content {/* Блок контента */
+	padding-left: 200px;/* Отступ равный ширине левого блока */	
+	vertical-align: top; /* Выравниваем по верху */
 }
 
-.left-block {				
-	width: 200px;
-	background-color: #fff;
-	display: table-cell; /* блок будет вести себя как ячейка таблицы (для того чтобы выстроить в один ряд) */
-	padding: 20px;
-}
-.content {
-	background: #eee;
-	min-height: 400px;
-	display: table-cell; /* блок будет вести себя как ячейка таблицы (для того чтобы выстроить в один ряд) */
-	padding: 20px;	
-	width: 100%;
-}
 .footer {
-	height: 100px;
-	padding: 20px;
+	border: solid 1px green;
+	padding: 20px; 		/* внутренний отступ */
+	margin-top: 20px;	/* внешний верхний отступ */
+	background: rgba(255, 255, 255, 0.8);
 }
 
-
-/* меню */
-ul.menu { /* меню первого уровня */
-	position: absolute; /* абсолютно позиционируем блок, у родительского элемента должен быть relative */
-	bottom: 10px;
-	left: 10px;
-}
-ul.menu > li { /* элементы меню первого уровня */
-	display: inline-block; /* выстраиваем элементы списка в ряд */
-	background: #fff;
-	border-radius: 5px; /* закругление краёв */
-	position: relative;
-	padding-left: 30px;
-	padding-right: 30px;
-}
-ul.menu li a {
-	text-decoration: none;
-	color: #000;
-	padding: 10px;		
-    display: block;
-}
-ul.menu li:hover {/* при наведении мыши */
-	background: rgb(97, 154, 141);
-}
-ul.menu li:hover a {/* при наведении мыши */
-	color: #fff;
-}
-ul.menu > li > ul { /* меню второго уровня */
-	position: absolute;
-	left: 0px;
-	width: 100%;
+.middle .content h1 + p {
+	margin-bottom: 20px;
 	background: #ccc;
-	padding-left: 0px;
-	display: none;
 }
-ul.menu > li > ul li { /* элементы меню второго уровня */
-	display: block;
+
+.middle .content a {
+	color: blue;
 }
-ul.menu li:hover > ul {
-	display: block;
+
+.middle .content a:hover {
+	color: red;
 }
+
+.header .logo     {
+	position: absolute;
+    left: 50%;
+    margin-left: -100px;
+    top: 0px;
+}
+
+ul.main-menu { /* Главное меню */
+	position: absolute;
+	bottom: 10px;
+}
+
+ul.main-menu > li { /* Элементы меню */
+	display: inline-block; /* Выстраиваем список в ряд */	
+	background: white;		
+	margin-right: 10px; /* Внешние отступы */
+	/*border-radius: 10px;  Закругяет края */
+	position: relative; /* чтобы позиционирование подменю считалось относительно этого элемента*/
+}
+ul.main-menu > li:hover {/* При наведении мыши */
+	background: #ccc; /* Меняется цвет фона на серый */
+}
+
+ul.main-menu > li > a { /* Ссылки главного меню */
+	display: block;		/*ссылка будет вести себя как блочный элемент */
+	padding: 20px;		/* Внутренний отступ */
+	text-decoration: none;/* Убираем подчёркивание */
+	color: #666;
+	font-size: 18px;
+}
+ul.main-menu > li:hover > a {/* При наведении мыши на вкладки */
+	color: white; /* Меняем цвет текста ссылки */
+}
+
+ul.main-menu > li > ul.sub-menu { /* Подменю 2го уровня */
+	display: none; /* Скрываем */
+	position: absolute; /* Чтобы можно было спозиционировать под вкладку */
+    top: 60px;
+    left: 0px;
+    background: #ccc; /* серый фон */
+    list-style: none;
+    padding-left: 0;
+    width: 100%;
+}
+ul.main-menu > li:hover > ul.sub-menu {/* Показываем при наведении */
+	display: block; 
+}
+
+ul.main-menu > li > ul.sub-menu > li > a { /* ссылки подменю*/
+	text-decoration: none;
+    display: block;
+    height: 40px;
+    padding: 5px;
+    color: white;
+}
+
+
+

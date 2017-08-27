@@ -1,53 +1,57 @@
-<?php
-	session_start();
+ <?php 
+ 	session_cache_limiter(FALSE); 
+ 	session_start(); 	
+	include 'includes/base.php';
+	include 'includes/model.php';
 
-	if (isset($_SESSION['is_admin']) == false)
+	if (!isset($_SESSION['is_admin']))
 		$_SESSION['is_admin'] = false;
 
-	include 'includes/base.php';  //Здесь различные функции
-	include 'includes/model.php'; //Подключаем файл для работы с БД
-	
 	$model = new Model();
+	$pageData = array();	
+	$pageData['title'] = "";
+	$pageData['content'] = "какой-то текст, который нужно вывести на странице";
 
-	if (isset($_GET['remove-article'])) {
-		$model->removeArticle($_GET['remove-article']);
-	}
-
-	/* В зависимости от GET-запроса, показываем пользователю соотвествующее содержимое */
 	switch ($_GET['page']) {
 		case 'about':
-			$pageData['title'] = 'Обо мне';
-			$pageData['content'] = 'Какой-то текст обо мне';
+			$pageData['title'] = "Обо мне";	
+			$pageData['content'] = template('content');					
 			break;
-		case 'blog':
-			$list_articles = $model->getArticles();
-
-			$pageData['title'] = 'Блог';
-			$pageData['content'] = template('articles_list', array('items' => $list_articles));
-			
-			if ($_SESSION['is_admin'] == true)
-				$pageData['content'] .= template('article_form');
-
-			break;		
-		case 'contact':
-			$pageData['title'] = 'Контакты';
-			$pageData['content'] = 'vk.com/snake_yava';
-			break;		
+		case 'portfolio':
+			$pageData['title'] = "Портфолио";				
+			break;
 		case 'login':
-			$pageData['title'] = 'Авторизация';
-			$pageData['content'] = template('login');
+			$pageData['title'] = "Вход на сайт";
+			$pageData['content'] = template('login_form');					
 			break;	
+		case 'logout':
+			session_destroy();
+			break;		
+		case 'blog':
+			$pageData['title'] = "Блог";
+			$articles = $model->getListArticles();			
+			$pageData['content'] = template('blog',
+				array('articles' => $articles)
+			);		
+
+			if ($_SESSION['is_admin'] == true)
+				$pageData['content'] .= template("add_article_form");
+
+			break;			
+		case 'contact':
+			$pageData['title'] = "Контакты";
+			$pageData['content'] = template('contacts');
+			break;											
 		default:
-			$pageData['title'] = 'Главная';
-			$pageData['content'] = '<p>Какое-т содержимое страницы</p><p>Второй параграф</p>';
+			$pageData['title'] = "Главная";	
+			$pageData['content'] = $_SESSION['is_admin'] ? 'Вы вошли как админ' : 'Вы вошли как гость';					
 			break;
 	}
 
-	$pageData['left_block_data'] = array(
-		'title' => 'Разделы блога',
-		'items' => $model->getBlogCategories()
-	);
-	
+	$pageData['categories'] = $model->getListCategories();	
+		 
 	/* выводим содержимое файла page, передав в него массив с переменными */
 	includeFileWithVariables('views/page.php', $pageData);
+
 ?>
+

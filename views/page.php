@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Мой блог</title>
-	<link rel="stylesheet" type="text/css" href="css/style.css">
-	<script type="text/javascript" scr="js/jquery-3.2.1.js"></script>
+	<title>Заголовок страницы</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
-<body>	
-	<script type="text/javascript" scr="js/my_script.js"></script>
-	<div class="main">
-		<div class="header"><?php print template('header') ?></div>
-		<div class="middle">
-			<div class="left-block"><?php print template('left_block', $left_block_data) ?></div>
-			<div class="content">
-		          <h1><?php print $title; ?></h1>
-		          <?php print $content; ?>
-			</div>
+<body>
+	<div class="header">	
+		<?php include 'header.php'; ?>
+	</div>
+	<div class="middle">
+		<div class="leftblock">
+			<?php echo template('leftblock', array('categories' => $categories)); ?>
 		</div>
-		<div class="footer"><?php print template('footer') ?></div>
+		<div class="content">			
+			<h2><?php echo $title?></h2>
+			<?php echo $content?>
+		</div>
+	</div>
+	<div class="footer">
+		<?php include 'footer.php'; ?>
 	</div>
 </body>
 </html>
